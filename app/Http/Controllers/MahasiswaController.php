@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Mahasiswa;
 
 class MahasiswaController extends Controller
@@ -45,10 +46,16 @@ class MahasiswaController extends Controller
             'judulskripsiMahasiswa' => 'required',
             'pembimbing1'=>'required',
             'pembimbing2' => 'required',
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+            'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
         ]);
- 
-        Mahasiswa::create($request->all());
+
+        $file = $request->file('gambarMahasiswa');
+        $tujuan_upload = 'data_file';
+	    $file->move($tujuan_upload,time() . '_' .$file->getClientOriginalName());
+        
+        $data = $request->all();
+        $data['gambarMahasiswa'] = time() . '_' . $file->getClientOriginalName();
+        Mahasiswa::create($data);
         return redirect()->route('mahasiswa.index')
                          ->with('success','Data berhasil ditambahkan');
     }
@@ -93,7 +100,7 @@ class MahasiswaController extends Controller
             'judulskripsiMahasiswa' => 'required',
             'pembimbing1'=>'required',
             'pembimbing2' => 'required',
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+            'gambarMahasiswa' => 'image|mimes:jpg,png,jpeg'
         ]);
         $mahasiswa = Mahasiswa::find($id);
         $mahasiswa->namaMahasiswa = $request->get('namaMahasiswa');
@@ -102,9 +109,25 @@ class MahasiswaController extends Controller
         $mahasiswa->judulskripsiMahasiswa = $request->get('judulskripsiMahasiswa');
         $mahasiswa->pembimbing1 = $request->get('pembimbing1');
         $mahasiswa->pembimbing2 = $request->get('pembimbing2');
+        if ($request->hasFile('gambarMahasiswa')) {
+            // Hapus gambar lama jika ada
+            if ($mahasiswa->gambarMahasiswa && File::exists(public_path('data_file/' . $mahasiswa->gambarMahasiswa))) {
+            File::delete(public_path('data_file/' . $mahasiswa->gambarMahasiswa));
+                }
+
+            // Simpan gambar baru
+            $file = $request->file('gambarMahasiswa');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move('data_file', $filename);
+            
+            // Simpan nama file ke database
+            $mahasiswa->gambarMahasiswa = $filename;
+            }
         $mahasiswa->save();
         return redirect()->route('mahasiswa.index')
                          ->with('success', 'Data berhasil diupdate');
+
+
     }
 
     /**
@@ -116,8 +139,15 @@ class MahasiswaController extends Controller
     public function destroy($id)
     {
         $mahasiswa = Mahasiswa::find($id);
+        File::delete(public_path('data_file/' . $mahasiswa->gambarMahasiswa));
         $mahasiswa->delete();
         return redirect()->route('mahasiswa.index')
                          ->with('success', 'Data Alumni berhasil dihapus');
+    }
+
+    public function api()
+    {
+        $mahasiswas = Mahasiswa::orderBy('id','asc')->paginate(8);
+        return response()->json($mahasiswas);
     }
 }

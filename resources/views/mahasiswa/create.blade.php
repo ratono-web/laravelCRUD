@@ -34,13 +34,13 @@
             <div class="form-group row">
                 <label for="namaMahasiswa" class="col-sm-2 col-form-label">Nama Mahasiswa</label>
                 <div class="col-sm-10">
-                    <input type="text" name="namaMahasiswa" class="form-control" id="namaMahasiswa" placeholder="Nama Mahasiswa">
+                    <input type="text" name="namaMahasiswa" class="form-control" id="namaMahasiswa" placeholder="Nama Mahasiswa" value="{{ old('namaMahasiswa') }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="nimMahasiswa" class="col-sm-2 col-form-label">NIM Mahasiswa</label>
                 <div class="col-sm-10">
-                    <input type="text" name="nimMahasiswa" class="form-control" id="nimMahasiswa" placeholder="NIM Mahasiswa">
+                    <input type="text" name="nimMahasiswa" class="form-control" id="nimMahasiswa" placeholder="NIM Mahasiswa" value="{{ old('nimMahasiswa') }}">
                 </div>
             </div>
             <div class="form-group row">
@@ -58,28 +58,28 @@
             <div class="form-group row">
                 <label for="judulskripsiMahasiswa" class="col-sm-2 col-form-label">Judul Skripsi</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" name="judulskripsiMahasiswa" rows="8" cols="80" placeholder="Masukkan Judul Skripsi"></textarea>
+                        <textarea class="form-control" name="judulskripsiMahasiswa" rows="8" cols="80" placeholder="Masukkan Judul Skripsi">{{ old('namaMahasiswa') }}</textarea>
                     </div>
             </div>
             <div class="form-group row">
                 <label for="pembimbing1" class="col-sm-2 col-form-label">Pembimbing 1</label>
                 <div class="col-sm-10">
-                    <input type="text" name="pembimbing1" class="form-control" id="pembimbing1" placeholder="Pembimbing 1">
+                    <input type="text" name="pembimbing1" class="form-control" id="pembimbing1" placeholder="Pembimbing 1" value="{{ old('pembimbing1') }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="pembimbing2" class="col-sm-2 col-form-label">Pembimbing 2</label>
                 <div class="col-sm-10">
-                    <input type="text" name="pembimbing2" class="form-control" id="pembimbing2" placeholder="Pembimbing 2">
+                    <input type="text" name="pembimbing2" class="form-control" id="pembimbing2" placeholder="Pembimbing 2" value="{{ old('pembimbing2') }}">
                 </div>
             </div>
-            <!--<div class="form-group row">
+            <div class="form-group row">
                 <label for="gambarMahasiswa" class="col-sm-2 col-form-label">Pilih gambar</label>
                 <div class="col-sm-10">
                     <input type="file" name="gambarMahasiswa">
                 <p class="text-danger">{{ $errors->first('gambarMahasiswa') }}</p>
                 </div>
-            </div>-->
+            </div>
 
              <hr>
                 <div class="form-group">

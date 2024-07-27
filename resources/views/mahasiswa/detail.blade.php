@@ -18,6 +18,9 @@
         </div>
         <br>
 
+        <div>
+            <img width="300px" src="{{ url('/data_file/'.$mahasiswa->gambarMahasiswa) }}" alt="" srcset="">
+        </div>
         <div class="form-group row">
             <label for="namaMahasiswa" class="col-sm-2 col-form-label">Nama Mahasiswa</label>
             <div class="col-sm-10">

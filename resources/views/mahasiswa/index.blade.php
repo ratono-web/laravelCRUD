@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10">
-                <h3> Daftar Alumni Prodi DIII Teknik Komputer Poltek Harber</h3>
+                <h3> Daftar Alumni Prodi DIV Teknik Informatika Poltek Harber</h3>
             </div>
             <div class="col-sm-2">
                 <a class="btn btn-success" href="{{ route('mahasiswa.create')}}"> Tambah Alumni </a>
