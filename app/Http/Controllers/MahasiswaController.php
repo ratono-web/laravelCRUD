@@ -150,4 +150,10 @@ class MahasiswaController extends Controller
         $mahasiswas = Mahasiswa::orderBy('id','asc')->paginate(8);
         return response()->json($mahasiswas);
     }
+
+    public function apiShow($id)
+    {
+        $mahasiswa = Mahasiswa::find($id);
+        return response()->json($mahasiswa);
+    }
 }

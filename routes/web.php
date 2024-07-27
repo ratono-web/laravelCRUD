@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 route::resource('mahasiswa', 'MahasiswaController');
 Route::get('/alumni', 'MahasiswaController@api');
+Route::get('/alumni/{id}', 'MahasiswaController@apiShow');
 
 Auth::routes();
 

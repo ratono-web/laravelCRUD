@@ -277,6 +277,27 @@
     </div>
   </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="cardDetailModal" tabindex="-1" aria-labelledby="cardDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cardDetailModalLabel">Detail Alumni</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img id="modalImage" src="" class="img-fluid mb-3" alt="Detail Image">
+          <p id="modalText"></p>
+          <small id="modalTime" class="text-muted"></small>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </main>
 
 <footer class="text-body-secondary py-5">
@@ -311,7 +332,7 @@
                               <p class="card-text">${card.namaMahasiswa} | NIM : ${card.nimMahasiswa} <br> Skripsi : ${card.judulskripsiMahasiswa}  <br> Pembimbing : ${card.pembimbing1} | ${card.pembimbing2}</p>
                               <div class="d-flex justify-content-between align-items-center">
                                   <div class="btn-group">
-                                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                      <button type="button" class="btn btn-sm btn-outline-secondary view-btn" data-id="${card.id}">View</button>
                                   </div>
                                   <small class="text-body-secondary">Angkatan : ${card.angkatanMahasiswa}</small>
                               </div>
@@ -319,6 +340,12 @@
                       </div>
                   </div>`;
                   alumni.append(cardHtml);
+              });
+
+              // Tambahkan event listener untuk tombol "View"
+              $('.view-btn').on('click', function() {
+                  let cardId = $(this).data('id');
+                  showCardDetail(cardId);
               });
 
               let pagination = $('#pagination');
@@ -333,6 +360,26 @@
                   let page = $(this).data('page');
                   loadCards(page);
               });
+          },
+          error: function(xhr, status, error) {
+              console.error(error);
+          }
+      });
+  }
+
+  function showCardDetail(cardId) {
+      $.ajax({
+          url: '/alumni/'+cardId,
+          method: 'GET',
+          success: function(card) {
+              $('#modalImage').attr('src', '/data_file/'+card.gambarMahasiswa);
+              $('#modalText').text('Nama : '+card.namaMahasiswa+
+              ' || NIM : '+card.nimMahasiswa+ ' || Judul Skripsi : '+ card.judulskripsiMahasiswa+
+              ' || Pembimbing 1 : '+card.pembimbing1+
+              ' || Pembimbing 2 : '+card.pembimbing2
+              );
+              $('#modalTime').text('Angkatan : '+card.angkatanMahasiswa);
+              $('#cardDetailModal').modal('show');
           },
           error: function(xhr, status, error) {
               console.error(error);
